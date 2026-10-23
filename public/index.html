@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>System Design Dojo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- dry-brush rough edge -->
+    <filter id="brush" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045 0.06" numOctaves="3" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="5"/>
+    </filter>
+    <!-- ensō: one open brush circle, thick to thin -->
+    <g id="enso-path" fill="none" stroke-linecap="round">
+      <path d="M78 14 C 40 4, 8 34, 14 68 C 20 102, 62 116, 92 98 C 112 86, 116 58, 104 40" stroke="currentColor" stroke-width="9" filter="url(#brush)"/>
+      <path d="M92 98 C 112 86, 116 58, 104 40" stroke="currentColor" stroke-width="4" opacity=".7" filter="url(#brush)"/>
+    </g>
+
+    <filter id="wash" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018 0.03" numOctaves="2" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="9"/>
+    </filter>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f8f1e0"/><stop offset=".6" stop-color="#f1e6cc"/><stop offset="1" stop-color="#e7dabc"/></linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b3c5bb"/><stop offset="1" stop-color="#7c9a94"/></linearGradient>
+    <linearGradient id="mist" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6efdc" stop-opacity="0"/><stop offset=".55" stop-color="#f6efdc" stop-opacity=".9"/><stop offset="1" stop-color="#f6efdc" stop-opacity="0"/></linearGradient>
+    <g id="roof"><path d="M-34 0 Q-20 -1 -13 -10 H13 Q20 -1 34 0 Q20 5 0 5 Q-20 5 -34 0Z"/></g>
+    <g id="pagoda">
+      <g transform="translate(0 0) scale(1.00)"><rect x="-11" y="-14" width="22" height="14" fill="#5a4b3a"/><use href="#roof" y="-14" fill="#2f2a22"/></g><g transform="translate(0 -17) scale(0.87)"><rect x="-11" y="-14" width="22" height="14" fill="#5a4b3a"/><use href="#roof" y="-14" fill="#2f2a22"/></g><g transform="translate(0 -34) scale(0.74)"><rect x="-11" y="-14" width="22" height="14" fill="#5a4b3a"/><use href="#roof" y="-14" fill="#2f2a22"/></g><g transform="translate(0 -51) scale(0.61)"><rect x="-11" y="-14" width="22" height="14" fill="#5a4b3a"/><use href="#roof" y="-14" fill="#2f2a22"/></g><g transform="translate(0 -68) scale(0.48)"><rect x="-11" y="-14" width="22" height="14" fill="#5a4b3a"/><use href="#roof" y="-14" fill="#2f2a22"/></g>
+      <path d="M0 -82 V-108" stroke="#2f2a22" stroke-width="2"/><path d="M-4 -92 H4 M-3 -98 H3 M-2 -103 H2" stroke="#2f2a22" stroke-width="1.6"/>
+    </g>
+    <g id="house"><rect x="-9" y="-9" width="18" height="9" fill="#5a4b3a"/><use href="#roof" y="-9" fill="#2f2a22" transform="scale(.45)"/></g>
+    <g id="pine">
+      <path d="M0 22 C-2 4 4 -10 -2 -30 C-4 -44 2 -56 0 -66" stroke="#2b2418" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      <g fill="#33452f"><ellipse cx="-14" cy="-30" rx="20" ry="6"/><ellipse cx="12" cy="-43" rx="18" ry="5.5"/><ellipse cx="-8" cy="-56" rx="15" ry="5"/><ellipse cx="9" cy="-67" rx="11" ry="4"/></g>
+    </g>
+    <g id="blossom"><g fill="#f8d3d7" stroke="#e5a3ae" stroke-width=".6">
+      <ellipse cx="0" cy="-6" rx="4" ry="6.5"/><ellipse cx="0" cy="-6" rx="4" ry="6.5" transform="rotate(72)"/><ellipse cx="0" cy="-6" rx="4" ry="6.5" transform="rotate(144)"/><ellipse cx="0" cy="-6" rx="4" ry="6.5" transform="rotate(216)"/><ellipse cx="0" cy="-6" rx="4" ry="6.5" transform="rotate(288)"/></g><circle r="1.8" fill="#c0463a"/></g>
+    <g id="koi">
+      <path d="M-26 0 Q-46 -13 -56 -6 Q-46 0 -56 6 Q-46 13 -26 0Z" fill="#e0693f" opacity=".9"/>
+      <ellipse rx="28" ry="9.5" fill="#e87a4f"/><ellipse cx="-4" cy="-1" rx="11" ry="5.5" fill="#fbf4e6"/><ellipse cx="9" cy="1" rx="6" ry="3.5" fill="#b5473a"/>
+      <path d="M2 8 Q8 16 16 12 Q10 8 2 8Z M2 -8 Q8 -16 16 -12 Q10 -8 2 -8Z" fill="#e0693f" opacity=".8"/><circle cx="22" cy="-3" r="1.3" fill="#2c2b27"/>
+    </g>
+  </defs>
+</svg>
+<svg class="scenery" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <g filter="url(#wash)"><path fill="#b7c2b2" d="M0 260 C80 220 140 170 220 200 C300 230 340 270 430 215 C520 160 580 170 650 220 C720 270 790 250 860 200 C930 150 1010 150 1080 200 C1130 235 1170 230 1200 220 V400 H0Z"/>
+  <path fill="#9bb096" opacity=".8" d="M0 330 C100 300 180 270 270 295 C360 320 420 340 520 305 C620 270 700 300 800 325 C900 350 1000 310 1100 290 C1150 280 1180 285 1200 290 V400 H0Z"/></g>
+  <rect y="230" width="1200" height="80" fill="url(#mist)"/>
+  <use href="#pagoda" transform="translate(1010 232) scale(.7)" opacity=".7"/>
+</svg>
+<header class="topbar">
+  <a class="brand" href="/" title="Back to the dojo">
+    <svg class="logo" viewBox="0 0 120 120" aria-hidden="true"><use href="#enso-path"/></svg>
+    <span class="brand-text"><b>System Design Dojo</b><small>where architects train</small></span>
+  </a>
+  <div id="rank-chip" class="rank-chip hidden"></div>
+</header>
+
+<!-- ============ HOME ============ -->
+<main id="home" class="screen">
+  <section class="hero">
+    <svg class="scene" viewBox="0 0 1200 480" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <rect width="1200" height="480" fill="url(#sky)"/>
+    <circle cx="840" cy="172" r="112" fill="#c0463a" opacity=".09"/><circle cx="840" cy="172" r="78" fill="#c0463a" opacity=".88"/>
+    <g filter="url(#wash)">
+      <path fill="#b7c2b2" opacity=".6" d="M0 310 C60 280 90 230 140 250 C190 270 220 300 290 240 C340 195 380 215 430 260 C480 300 540 290 600 250 C660 210 700 190 760 235 C820 280 880 270 930 220 C980 175 1030 190 1080 240 C1130 285 1170 270 1200 255 V380 H0Z"/>
+    </g>
+    <rect y="248" width="1200" height="95" fill="url(#mist)"/>
+    <g filter="url(#wash)"><path fill="#8ea48a" opacity=".82" d="M0 352 C80 332 130 292 200 302 C270 312 300 342 380 302 C450 264 500 252 560 287 C620 322 680 332 740 302 C800 272 840 242 900 264 C960 287 1010 332 1080 312 C1140 297 1170 302 1200 312 V420 H0Z"/></g>
+    <use href="#pagoda" transform="translate(902 266) scale(.62)" opacity=".92"/>
+    <use href="#house" transform="translate(530 308)" opacity=".8"/><use href="#house" transform="translate(556 311) scale(.8)" opacity=".8"/><use href="#house" transform="translate(582 307) scale(.9)" opacity=".8"/>
+    <rect y="300" width="1200" height="70" fill="url(#mist)" opacity=".8"/>
+    <rect y="392" width="1200" height="88" fill="url(#water)"/>
+    <g stroke="#f7f1e2" fill="none" stroke-width="1.5" opacity=".55">
+      <g class="flow f1"><path d="M0 414 q50 -9 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0"/><path d="M0 446 q50 -9 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0" transform="translate(-60 0)"/></g>
+      <g class="flow f2"><path d="M0 428 q50 -9 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0" transform="translate(-30 0)"/><path d="M0 462 q50 -9 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0" transform="translate(-90 0)"/></g>
+      <g class="flow f3" stroke-width="1" opacity=".8"><path d="M0 437 q50 -9 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0" transform="translate(-10 0)"/><path d="M0 472 q50 -9 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0" transform="translate(-130 0)"/></g>
+    </g>
+    <g class="shimmer" fill="#c0463a"><rect x="800" y="404" width="80" height="2"/><rect x="814" y="414" width="52" height="2"/><rect x="822" y="425" width="36" height="2"/><rect x="828" y="438" width="22" height="2"/></g>
+    <path fill="#5f7a58" opacity=".92" filter="url(#wash)" d="M0 405 C60 365 130 340 210 352 C280 364 330 392 392 408 C440 418 470 424 480 432 C330 442 120 440 0 442Z"/>
+    <path fill="#566f50" opacity=".92" filter="url(#wash)" d="M700 430 C760 408 880 386 980 388 C1060 392 1120 362 1200 345 V444 C1080 440 820 444 700 430Z"/>
+    <use href="#pine" transform="translate(150 392) scale(1.15)"/><use href="#pine" transform="translate(214 386) scale(.85)"/><use href="#pine" transform="translate(268 398) scale(.6)"/>
+    <use href="#pine" transform="translate(1030 392) scale(1.2)"/><use href="#pine" transform="translate(1092 382) scale(.9)"/>
+    <g fill="none" stroke="#b5473a" stroke-linecap="round"><path d="M478 428 Q590 352 704 432" stroke-width="9"/><path d="M478 440 Q590 372 704 442" stroke-width="3" stroke="#2f2a22" opacity=".7"/>
+      <path d="M520 402 V428 M556 390 V418 M592 385 V416 M628 390 V420 M664 402 V426" stroke-width="2.5" stroke="#2f2a22"/></g>
+    <path d="M478 436 Q590 500 704 438" fill="none" stroke="#b5473a" stroke-width="8" opacity=".22"/>
+    <g class="boat"><path d="M300 462 H356 Q350 474 338 474 H318 Q306 474 300 462Z" fill="#3b3228"/><path d="M328 460 V424 L352 458Z" fill="#f6efdc" stroke="#3b3228" stroke-width="1"/><path d="M328 460 V428" stroke="#3b3228" stroke-width="2"/></g>
+    <g fill="none" stroke="#2c2b27" stroke-width="1.8" stroke-linecap="round" class="birds"><path d="M700 70 q8 -9 16 0 q8 -9 16 0"/><path d="M746 52 q7 -8 14 0 q7 -8 14 0"/><path d="M790 84 q6 -7 12 0 q6 -7 12 0"/></g>
+    <g fill="none" stroke="#3b3228" stroke-linecap="round"><path d="M1210 36 C1140 58 1090 48 1010 90 C970 110 940 104 892 132" stroke-width="7"/><path d="M1080 60 C1074 88 1064 98 1052 120" stroke-width="3.5"/><path d="M1140 52 C1150 78 1150 92 1140 110" stroke-width="3"/><path d="M1000 94 C990 112 986 126 972 140" stroke-width="3"/></g>
+    <use href="#blossom" transform="translate(1160 46) scale(1.2)"/><use href="#blossom" transform="translate(1110 58)"/><use href="#blossom" transform="translate(1056 76) scale(1.1)"/><use href="#blossom" transform="translate(1020 92)"/><use href="#blossom" transform="translate(944 112) scale(.9)"/>
+    <use href="#blossom" transform="translate(1052 120) scale(.9)"/><use href="#blossom" transform="translate(1141 112) scale(1.1)"/><use href="#blossom" transform="translate(972 140) scale(.8)"/><use href="#blossom" transform="translate(900 130) scale(.8)"/>
+  </svg>
+    <div>
+      <h1>Step onto the mat.</h1>
+      <p>Six katas. One interviewer. Speak your design aloud, draw it, and defend it with a calm mind. Every round is graded with care.</p>
+      <div class="row">
+        <button id="random" class="btn seal">Random bout</button>
+        <button id="daily" class="btn gold">Daily challenge</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="resume" class="banner hidden"></div>
+  <div id="stats" class="stats"></div>
+
+  <section>
+    <div class="section-head"><h2>Choose your opponent</h2><span class="hint" id="count"></span></div>
+    <div class="filters">
+      <div id="cat-chips" class="chips"></div>
+      <div class="chips" id="diff-chips"></div>
+    </div>
+    <div id="problem-grid" class="grid"></div>
+  </section>
+
+  <section id="history-wrap" class="hidden">
+    <div class="section-head"><h2>Training log</h2><span class="hint">Your last bouts</span></div>
+    <div id="trend"></div>
+    <div id="history"></div>
+  </section>
+
+  <p class="hint foot">Voice uses your browser's speech recognition (Chrome or Safari). Transcripts are editable before grading.</p>
+</main>
+
+<!-- ============ GAME ============ -->
+<main id="game" class="screen hidden">
+  <div class="scroll problem">
+    <div class="problem-top"><span class="seal-mark"></span><strong id="problem-title"></strong><span id="problem-meta" class="hint"></span>
+      <button id="leave" class="btn ghost small">Leave mat</button></div>
+    <p id="problem-prompt"></p>
+  </div>
+  <nav id="stepper"></nav>
+
+  <div class="layout">
+    <section class="stage-col">
+      <div class="stage-head">
+        <div class="num-badge" id="stage-num"></div>
+        <div>
+          <h2 id="stage-name"></h2>
+          <p id="stage-goal"></p>
+        </div>
+        <div class="timer-box"><div id="timer" class="timer">0:00</div><div class="timebar"><i id="timebar"></i></div></div>
+      </div>
+      <ul id="stage-tips" class="tips"></ul>
+
+      <div id="board-wrap" class="board-wrap hidden">
+        <div class="toolbar" id="toolbar">
+          <button data-tool="select" class="active">Select</button>
+          <button data-tool="box">Service</button>
+          <button data-tool="db">Database</button>
+          <button data-tool="arrow">Arrow</button>
+          <button data-tool="text">Text</button>
+          <span class="spacer"></span>
+          <button id="board-mic" class="exp-only">Speak your answer</button>
+          <button id="board-probe" class="exp-only">Challenge me</button>
+          <button id="delete-shape">Delete</button>
+          <button id="clear-board">Clear</button>
+          <button id="board-expand" title="Expand the whiteboard (Esc to close)">Expand</button>
+        </div>
+        <div id="board-note" class="board-note exp-only"></div>
+        <canvas id="board" width="1100" height="520"></canvas>
+        <div class="hint">Drag to size a shape. Double-click to rename. Delete key removes the selection.</div>
+      </div>
+
+      <div class="speak">
+        <button id="mic" class="kiai">Speak your answer</button>
+        <span id="mic-status" class="hint"></span>
+      </div>
+      <label for="transcript">Your words (editable)</label>
+      <textarea id="transcript" placeholder="Press the mic and think out loud, or type here…"></textarea>
+
+      <div class="row between">
+        <button id="back" class="btn ghost">← Previous kata</button>
+        <button id="next" class="btn seal">Next kata →</button>
+      </div>
+    </section>
+
+    <aside class="sensei">
+      <div class="sensei-head">
+        <span class="avatar"><svg viewBox="0 0 120 120"><use href="#enso-path"/></svg></span>
+        <div><b>The Interviewer</b><small id="sensei-sub">Ask clarifying questions. They are graded too.</small></div>
+      </div>
+      <div id="chat-log"></div>
+      <div id="probe-row" class="row hidden">
+        <button id="probe" class="btn gold small">Challenge me</button>
+        <label class="toggle"><input type="checkbox" id="opt-interject"> Interject when I pause</label>
+      </div>
+      <div class="chat-input-row">
+        <textarea id="chat-input" rows="2" placeholder="Ask, or answer the interviewer…"></textarea>
+        <div class="col">
+          <button id="chat-mic" class="btn ghost small" title="Dictate">Mic</button>
+          <button id="chat-send" class="btn seal small">Send</button>
+        </div>
+      </div>
+      <label class="toggle"><input type="checkbox" id="opt-speak"> Read interviewer aloud</label>
+    </aside>
+  </div>
+</main>
+
+<!-- ============ RESULTS ============ -->
+<main id="results" class="screen hidden"></main>
+
+<footer class="pond" aria-hidden="true">
+  <svg viewBox="0 0 1200 240" preserveAspectRatio="xMidYMax slice">
+    <rect width="1200" height="240" fill="url(#water)"/>
+    <g stroke="#f7f1e2" fill="none" stroke-width="1.4" opacity=".5">
+      <g class="flow f1"><path d="M0 40 q50 -9 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0"/><path d="M0 120 q50 -9 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0" transform="translate(-50 0)"/><path d="M0 200 q50 -9 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0" transform="translate(-20 0)"/></g>
+      <g class="flow f2"><path d="M0 75 q50 -9 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0" transform="translate(-30 0)"/><path d="M0 160 q50 -9 100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0 t100 0" transform="translate(-90 0)"/></g>
+    </g>
+    <g fill="#6f8f62" opacity=".9"><ellipse cx="140" cy="70" rx="30" ry="11"/><ellipse cx="170" cy="82" rx="18" ry="7"/><ellipse cx="980" cy="150" rx="34" ry="12"/><ellipse cx="1020" cy="165" rx="20" ry="7"/></g>
+    <g fill="#f8d3d7"><circle cx="140" cy="66" r="6"/><circle cx="982" cy="146" r="7"/></g>
+    <g class="swim s1"><use href="#koi" transform="translate(0 100)"/></g>
+    <g class="swim s2"><use href="#koi" transform="translate(0 175) scale(.8)"/></g>
+    <g class="swim s3"><use href="#koi" transform="translate(0 40) scale(.6)"/></g>
+  </svg>
+</footer>
+<script src="problems.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
