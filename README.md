@@ -74,8 +74,20 @@ Open http://localhost:3000. There are no dependencies to install.
 | --- | --- | --- |
 | `PORT` | `3000` | Port to listen on |
 | `HOST` | `127.0.0.1` | Bind address. Keep it local: requests spend your Claude usage |
+| `MAX_CALLS_PER_HOUR` | `150` | Cap on AI calls per hour (each interviewer message or grading attempt counts) |
 | `GRADER_MODEL` | `sonnet` | Model for end-of-session grading |
 | `INTERVIEWER_MODEL` | `haiku` | Model for interviewer chat |
+
+## Security and cost safety
+
+Every interviewer message and grading run spends your Claude subscription usage, so the server is locked down:
+
+- Binds to `127.0.0.1` only, so other machines can't reach it.
+- Rejects requests whose `Host` isn't localhost (DNS rebinding) and POSTs whose `Origin` isn't the app itself (other websites can't drive it from your browser). POSTs must be JSON.
+- Caps concurrent AI calls (2), calls per hour (`MAX_CALLS_PER_HOUR`), request body size, and input lengths, and kills any call that hangs past 3 minutes.
+- No credentials are stored in the app. The `claude` CLI handles its own login.
+
+If you expose it beyond localhost (not recommended), add real authentication first.
 
 ## How it works
 
